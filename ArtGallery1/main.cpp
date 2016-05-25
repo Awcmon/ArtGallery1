@@ -50,7 +50,7 @@ int main(int argc, char* args[])
 	Window window("Hi", 800, 600, SDL_WINDOW_SHOWN);
 	bool run = true;
 	EventContainer events;
-
+	/*
 	vector<Vector2f> points1 =
 	{
 		Vector2f(10,10),
@@ -59,11 +59,22 @@ int main(int argc, char* args[])
 		Vector2f(600,20),
 		Vector2f(300, 300)
 	};
+	*/
+
+	vector<Vector2f> points1 =
+	{
+		Vector2f(0,0),
+		Vector2f(0,450),
+		Vector2f(600,450),
+		Vector2f(600,0),
+		Vector2f(300, 300)
+	};
+
 	Polygon poly(points1);
 
 	ArtGallery gallery(poly);
 
-	Vector2f guardpos = Vector2f(100, 300);
+	Vector2f guardpos = Vector2f(500, 121);
 	Polygon visible = gallery.generateVisible(guardpos);
 
 	while (run)
