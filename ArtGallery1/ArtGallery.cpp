@@ -4,6 +4,7 @@
 
 using std::vector;
 using awcutil::Vector2f;
+using awcutil::angr_normalize;
 
 float cross2D(Vector2f p1, Vector2f p2)
 {
@@ -89,10 +90,10 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 			Vector2f dir = sorted[i] - guard;
 			Vector2f dirp = enclosing.vertices[(index - 1 + enclosing.vertices.size()) % enclosing.vertices.size()] - enclosing.vertices[index];
 			Vector2f dirn = enclosing.vertices[(index + 1) % enclosing.vertices.size()] - enclosing.vertices[index];
-			float ang = dir.angle();
-			float angp = dirp.angle();
-			float angn = dirn.angle();
-			if ((cos(awcutil::angr_difference(angp,ang)) > 0 && cos(awcutil::angr_difference(angn, ang)) < 0) || (cos(awcutil::angr_difference(angn, ang)) > 0 && cos(awcutil::angr_difference(angp, ang)) < 0))
+			float ang = angr_normalize(dir.angle());
+			float angp = angr_normalize(dirp.angle());
+			float angn = angr_normalize(dirn.angle());
+			if ( (ang > angp && ang < angn) || (angr_normalize(ang+M_PI) > angp && angr_normalize(ang+M_PI) < angn) || (ang > angn && ang < angp) || (angr_normalize(ang + M_PI) > angn && angr_normalize(ang + M_PI) < angp) )
 			{
 				verts.push_back(sorted[i]);
 				std::cout << "wall\n";
