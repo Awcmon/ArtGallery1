@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Polygon.h"
+#include <algorithm>
+#include <functional>
 
 class ArtGallery
 {
@@ -9,6 +11,7 @@ public:
 	//std::vector<awcutil::Vector2f> guards;
 
 	ArtGallery();
+	ArtGallery(Polygon _enclosing);
 	~ArtGallery();
 
 	Polygon generateVisible(awcutil::Vector2f guard);

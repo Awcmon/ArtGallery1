@@ -10,6 +10,8 @@ Polygon::Polygon(std::vector<awcutil::Vector2f> _vertices)
 {
 	vertices = _vertices;
 	segments = generateLineSegments();
+	//Actually do this later
+	boundingDiagLength = 100000.0f;
 }
 
 Polygon::~Polygon()

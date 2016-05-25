@@ -53,14 +53,18 @@ int main(int argc, char* args[])
 
 	vector<Vector2f> points1 =
 	{
-		Vector2f(0,0),
-		Vector2f(40,300),
-		Vector2f(400,400), 
-		Vector2f(600,500)
+		Vector2f(10,10),
+		Vector2f(40,400),
+		Vector2f(600,450),
+		Vector2f(600,20),
+		Vector2f(300, 300)
 	};
 	Polygon poly(points1);
 
-	ArtGallery gallery;
+	ArtGallery gallery(poly);
+
+	Vector2f guardpos = Vector2f(100, 300);
+	Polygon visible = gallery.generateVisible(guardpos);
 
 	while (run)
 	{
@@ -81,6 +85,9 @@ int main(int argc, char* args[])
 		//Draw test poly
 		SDL_SetRenderDrawColor(window.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		drawPolygon(window.renderer, poly);
+		SDL_SetRenderDrawColor(window.renderer, 0xFF, 0, 0, 0xFF);
+		drawPolygon(window.renderer, visible);
+		SDL_RenderDrawPoint(window.renderer, (int)guardpos.x, (int)guardpos.y);
 		
 
 		SDL_RenderPresent(window.renderer);
