@@ -5,10 +5,24 @@
 using std::vector;
 using awcutil::Vector2f;
 using awcutil::angr_normalize;
+using awcutil::angr_difference;
 
 float cross2D(Vector2f p1, Vector2f p2)
 {
 	return p1.x*p2.y - p1.y*p2.x;
+}
+
+float angle_between(float n, float a, float b) 
+{
+	float n = fmod((360.0f + fmod(n, 360.0f)) , 360.0f);
+	float a = fmod((3600000.0f + a) , 360.0f);
+	float b = fmod((3600000.0f + b) , 360.0f);
+
+	if (a < b)
+	{
+		return a <= n && n <= b;
+	}
+	return a <= n || n <= b;
 }
 
 ArtGallery::ArtGallery()
@@ -93,7 +107,7 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 			float ang = angr_normalize(dir.angle());
 			float angp = angr_normalize(dirp.angle());
 			float angn = angr_normalize(dirn.angle());
-			if ( (ang > angp && ang < angn) || (angr_normalize(ang+M_PI) > angp && angr_normalize(ang+M_PI) < angn) || (ang > angn && ang < angp) || (angr_normalize(ang + M_PI) > angn && angr_normalize(ang + M_PI) < angp) )
+			if ( (angr_difference(ang,angn) > 0.0f && angr_difference(ang, angp) < 0.0f) || (angr_difference(ang, angn) < 0.0f && angr_difference(ang, angp) > 0.0f) || (angr_difference(angr_normalize(ang + M_PI), angn) > 0.0f && angr_difference(angr_normalize(ang + M_PI), angp) < 0.0f) || (angr_difference(angr_normalize(ang + M_PI), angn) < 0.0f && angr_difference(angr_normalize(ang + M_PI), angp) > 0.0f) )
 			{
 				verts.push_back(sorted[i]);
 				std::cout << "wall\n";
