@@ -1,17 +1,18 @@
 #pragma once
 
-#include <awcutil.h>
 #include <vector>
+#include "LineSegment.h"
 
 class Polygon
 {
 public:
 	std::vector<awcutil::Vector2f> vertices;
+	std::vector<LineSegment> segments;
 
 	Polygon();
 	Polygon(std::vector<awcutil::Vector2f> _vertices);
 	~Polygon();
 
-//	void draw(bool fill);
+	std::vector<LineSegment> generateLineSegments();
 };
 

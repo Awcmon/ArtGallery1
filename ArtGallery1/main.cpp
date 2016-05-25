@@ -12,6 +12,7 @@
 #include <math.h>
 
 #include "Polygon.h"
+#include "ArtGallery.h"
 
 using std::cout;
 
@@ -35,6 +36,14 @@ using awcutil::angr_forward;
 using awcutil::sdl::Window;
 using awcutil::sdl::EventContainer;
 
+void drawPolygon(SDL_Renderer* renderer, Polygon poly)
+{
+	for (int i = 0; i < (int)poly.vertices.size(); i++)
+	{
+		SDL_RenderDrawLine(renderer, (int)poly.vertices[i].x, (int)poly.vertices[i].y, (int)poly.vertices[(i + 1) % poly.vertices.size()].x, (int)poly.vertices[(i + 1) % poly.vertices.size()].y);
+	}
+}
+
 int main(int argc, char* args[])
 {
 	//cout << angr_normalize((float)M_PI);
@@ -44,11 +53,14 @@ int main(int argc, char* args[])
 
 	vector<Vector2f> points1 =
 	{
-		Vector2f(4,4),
-		Vector2f(4,40),
-		Vector2f(40,4)
+		Vector2f(0,0),
+		Vector2f(40,300),
+		Vector2f(400,400), 
+		Vector2f(600,500)
 	};
 	Polygon poly(points1);
+
+	ArtGallery gallery;
 
 	while (run)
 	{
@@ -68,10 +80,8 @@ int main(int argc, char* args[])
 
 		//Draw test poly
 		SDL_SetRenderDrawColor(window.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		for (int i = 0; i < (int)poly.vertices.size(); i++)
-		{
-			SDL_RenderDrawLine(window.renderer, (int)poly.vertices[i].x, (int)poly.vertices[i].y, (int)poly.vertices[(i + 1) % poly.vertices.size()].x, (int)poly.vertices[(i + 1) % poly.vertices.size()].y);
-		}
+		drawPolygon(window.renderer, poly);
+		
 
 		SDL_RenderPresent(window.renderer);
 	}
