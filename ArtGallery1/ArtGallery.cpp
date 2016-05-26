@@ -115,36 +115,22 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 				}
 			}
 			Vector2f dir = sorted[i] - guard;
-			Vector2f dirp = enclosing.vertices[(index - 1 + enclosing.vertices.size()) % enclosing.vertices.size()] - enclosing.vertices[index];
-			Vector2f dirn = enclosing.vertices[(index + 1) % enclosing.vertices.size()] - enclosing.vertices[index];
-			float ang = angr_normalize(dir.angle());
-			float angp = angr_normalize(dirp.angle());
-			float angn = angr_normalize(dirn.angle());
-			if(is_angle_between(ang, angp, angn) || is_angle_between(angr_normalize(ang+M_PI), angp, angn))
+			float ang = dir.angle();
+			float angp = angr_normalize(ang-0.01);
+			float angn = angr_normalize(ang+0.01);
+			LineSegment lsp(enclosing.vertices[(index - 1 + enclosing.vertices.size()) % enclosing.vertices.size()], enclosing.vertices[index]);
+			LineSegment lsn(enclosing.vertices[(index + 1) % enclosing.vertices.size()], enclosing.vertices[index]);
+			Vector2f dirp = awcutil::angr_forward(angp);
+			Vector2f dirn = awcutil::angr_forward(angn);
+			if( (Trace(guard, dirp*100.0f, lsp).hits.size() > 0 && Trace(guard, dirn*100.0f, lsn).hits.size() > 0) || (Trace(guard, dirn*1000.0f, lsp).hits.size() > 0 && Trace(guard, dirp*1000.0f, lsn).hits.size() > 0) )
 			{
 				verts.push_back(sorted[i]);
-				std::cout << "wall\n";
-				std::cout << awcutil::angr_difference(angp, ang) << "\n";
-				std::cout << awcutil::angr_difference(angn, ang) << "\n";
-				std::cout << enclosing.vertices[(index - 1 + enclosing.vertices.size()) % enclosing.vertices.size()] << "\n";
-				std::cout << enclosing.vertices[(index + 1) % enclosing.vertices.size()] << "\n";
-				std::cout << ang << "\n";
-				std::cout << angp << "\n";
-				std::cout << angn << "\n";
-				std::cout << "\n";
+				std::cout << "wall\n\n";
 			}
 			else
 			{
 				verts.push_back(sorted[i]);
-				std::cout << "edge\n";
-				std::cout << awcutil::angr_difference(angp, ang) << "\n";
-				std::cout << awcutil::angr_difference(angn, ang) << "\n";
-				std::cout << enclosing.vertices[(index - 1 + enclosing.vertices.size()) % enclosing.vertices.size()] << "\n";
-				std::cout << enclosing.vertices[(index + 1) % enclosing.vertices.size()] << "\n";
-				std::cout << ang << "\n";
-				std::cout << angp << "\n";
-				std::cout << angn << "\n";
-				std::cout << "\n";
+				std::cout << "edge\n\n";
 			}
 			
 		}

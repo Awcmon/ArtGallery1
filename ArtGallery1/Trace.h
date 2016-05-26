@@ -3,6 +3,7 @@
 #include <vector>
 #include <awcutil.h>
 #include "Polygon.h"
+#include "LineSegment.h"
 #include <algorithm>
 
 class Trace
@@ -15,6 +16,7 @@ public:
 
 	Trace();
 	Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, Polygon poly);
+	Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, LineSegment segment);
 	~Trace();
 };
 
