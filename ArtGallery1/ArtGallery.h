@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Polygon.h"
+#include "Trace.h"
 #include <algorithm>
 #include <functional>
 

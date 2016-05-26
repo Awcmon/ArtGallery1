@@ -1,5 +1,6 @@
 #include "Trace.h"
 
+using std::vector;
 using awcutil::Vector2f;
 
 float cross2D(Vector2f p1, Vector2f p2)
@@ -32,7 +33,6 @@ Trace::Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, Polygon poly)
 		{
 			std::cout << "parallel and non-intersecting\n";
 		}
-		else if (cross2D(r, s) != 0.0f && (t > 0.0f && t < 1.0f) && (u > 0.0f && u < 1.0f))
 		{
 			hits.push_back(p+r*t);
 		}
@@ -41,6 +41,12 @@ Trace::Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, Polygon poly)
 			std::cout << "not parallel and non-intersecting\n";
 		}
 	}
+	std::sort(hits.begin(), hits.end(),
+		[=](Vector2f & a, Vector2f & b) -> bool
+		{
+			return (a - start).length_sqr() < (b - start).length_sqr();
+		}
+	);
 }
 
 Trace::~Trace()

@@ -7,10 +7,8 @@ using awcutil::Vector2f;
 using awcutil::angr_normalize;
 using awcutil::angr_difference;
 
-float cross2D(Vector2f p1, Vector2f p2)
-{
-	return p1.x*p2.y - p1.y*p2.x;
-}
+extern float cross2D(Vector2f p1, Vector2f p2);
+
 /*
 float angle_between(float n, float a, float b) 
 {

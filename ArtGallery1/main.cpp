@@ -13,6 +13,7 @@
 
 #include "Polygon.h"
 #include "ArtGallery.h"
+#include "Trace.h"
 
 using std::cout;
 
@@ -41,6 +42,15 @@ void drawPolygon(SDL_Renderer* renderer, Polygon poly)
 	for (int i = 0; i < (int)poly.vertices.size(); i++)
 	{
 		SDL_RenderDrawLine(renderer, (int)poly.vertices[i].x, (int)poly.vertices[i].y, (int)poly.vertices[(i + 1) % poly.vertices.size()].x, (int)poly.vertices[(i + 1) % poly.vertices.size()].y);
+	}
+}
+
+template<typename T, typename A>
+void printVec(std::vector<T, A> const& vec, string delim)
+{
+	for (int i = 0; i < (int)vec.size(); i++)
+	{
+		std::cout << vec[i] << delim;
 	}
 }
 
@@ -77,6 +87,9 @@ int main(int argc, char* args[])
 	Vector2f guardpos = Vector2f(500, 121);
 	Polygon visible = gallery.generateVisible(guardpos);
 
+	Trace tr(Vector2f(300.0f, 0.0f), Vector2f(800.0f, 1000.0f), poly);
+	printVec(tr.hits, " ");
+
 	while (run)
 	{
 		events.think();
@@ -96,10 +109,17 @@ int main(int argc, char* args[])
 		//Draw test poly
 		SDL_SetRenderDrawColor(window.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		drawPolygon(window.renderer, poly);
+
 		SDL_SetRenderDrawColor(window.renderer, 0xFF, 0, 0, 0xFF);
 		drawPolygon(window.renderer, visible);
+
 		SDL_RenderDrawPoint(window.renderer, (int)guardpos.x, (int)guardpos.y);
 		
+		SDL_SetRenderDrawColor(window.renderer, 0, 0, 0, 0xFF);
+		for (int i = 0; i < (int)tr.hits.size(); i++)
+		{
+			SDL_RenderDrawPoint(window.renderer, (int)tr.hits[i].x, (int)tr.hits[i].y);
+		}
 
 		SDL_RenderPresent(window.renderer);
 	}

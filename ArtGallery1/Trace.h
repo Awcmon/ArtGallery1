@@ -3,6 +3,7 @@
 #include <vector>
 #include <awcutil.h>
 #include "Polygon.h"
+#include <algorithm>
 
 class Trace
 {
