@@ -11,18 +11,33 @@ float cross2D(Vector2f p1, Vector2f p2)
 {
 	return p1.x*p2.y - p1.y*p2.x;
 }
-
+/*
 float angle_between(float n, float a, float b) 
 {
-	float n = fmod((360.0f + fmod(n, 360.0f)) , 360.0f);
-	float a = fmod((3600000.0f + a) , 360.0f);
-	float b = fmod((3600000.0f + b) , 360.0f);
+	n = fmod((360.0f + fmod(n, 360.0f)) , 360.0f);
+	a = fmod((3600000.0f + a) , 360.0f);
+	b = fmod((3600000.0f + b) , 360.0f);
 
 	if (a < b)
 	{
 		return a <= n && n <= b;
 	}
 	return a <= n || n <= b;
+}
+*/
+
+bool is_angle_between(int target, int angle1, int angle2)
+{
+	// make the angle from angle1 to angle2 to be <= 180 degrees
+	int rAngle = ((angle2 - angle1) % 360 + 360) % 360;
+	if (rAngle >= 180)
+		std::swap(angle1, angle2);
+
+	// check if it passes through zero
+	if (angle1 <= angle2)
+		return target >= angle1 && target <= angle2;
+	else
+		return target >= angle1 || target <= angle2;
 }
 
 ArtGallery::ArtGallery()
@@ -107,7 +122,7 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 			float ang = angr_normalize(dir.angle());
 			float angp = angr_normalize(dirp.angle());
 			float angn = angr_normalize(dirn.angle());
-			if ( (angr_difference(ang,angn) > 0.0f && angr_difference(ang, angp) < 0.0f) || (angr_difference(ang, angn) < 0.0f && angr_difference(ang, angp) > 0.0f) || (angr_difference(angr_normalize(ang + M_PI), angn) > 0.0f && angr_difference(angr_normalize(ang + M_PI), angp) < 0.0f) || (angr_difference(angr_normalize(ang + M_PI), angn) < 0.0f && angr_difference(angr_normalize(ang + M_PI), angp) > 0.0f) )
+			if(is_angle_between(ang, angp, angn) || is_angle_between(angr_normalize(ang+M_PI), angp, angn))
 			{
 				verts.push_back(sorted[i]);
 				std::cout << "wall\n";

@@ -74,7 +74,7 @@ int main(int argc, char* args[])
 
 	ArtGallery gallery(poly);
 
-	Vector2f guardpos = Vector2f(100, 121);
+	Vector2f guardpos = Vector2f(500, 121);
 	Polygon visible = gallery.generateVisible(guardpos);
 
 	while (run)
