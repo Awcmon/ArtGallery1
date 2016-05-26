@@ -115,23 +115,37 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 				}
 			}
 			Vector2f dir = sorted[i] - guard;
-			float ang = dir.angle();
-			float angp = angr_normalize(ang-0.01);
-			float angn = angr_normalize(ang+0.01);
 			LineSegment ls(enclosing.vertices[(index - 1 + enclosing.vertices.size()) % enclosing.vertices.size()], enclosing.vertices[(index + 1) % enclosing.vertices.size()]);
-			Vector2f dirp = awcutil::angr_forward(angp);
-			Vector2f dirn = awcutil::angr_forward(angn);
-			if(Trace(guard, dir*100.0f, ls).hits.size() > 0 || Trace(guard, dir*-100.0f, ls).hits.size() > 0)
+			if(Trace(guard, guard + dir*10.0f, ls).hits.size() > 0 || Trace(guard, guard + dir*-10.0f, ls).hits.size() > 0)
 			{
 				verts.push_back(sorted[i]);
 				std::cout << "wall\n\n";
 			}
 			else
 			{
+				std::cout << "DIR: " << dir;
+				std::cout << "Hitpos: " << Trace(guard, guard + dir*10.0f, enclosing).hits[1] << "\n";
+				verts.push_back(Trace(guard, guard + dir*10.0f, enclosing).hits[1]);
 				verts.push_back(sorted[i]);
 				std::cout << "edge\n\n";
 			}
-			
+			/*
+			std::sort(verts.begin(), verts.end(),
+				[guard](Vector2f & a, Vector2f & b) -> bool
+				{
+					std::cout << a << " " << b << ": " << (a - guard).normalized().angle() << " " << (b - guard).normalized().angle() << "\n";
+					if (angr_normalize((a - guard).normalized().angle()) != angr_normalize((b - guard).normalized().angle()))
+					{
+						return (a - guard).angle() < (b - guard).angle();
+					}
+					else
+					{
+						std::cout << "LENGTH CHECK\n";
+						return (a - guard).length_sqr() > (b - guard).length_sqr();
+					}
+				}
+			);
+			*/
 		}
 	}
 	return Polygon(verts);

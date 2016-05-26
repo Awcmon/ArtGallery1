@@ -56,6 +56,7 @@ void printVec(std::vector<T, A> const& vec, string delim)
 
 int main(int argc, char* args[])
 {
+
 	//cout << angr_normalize((float)M_PI);
 	Window window("Hi", 800, 600, SDL_WINDOW_SHOWN);
 	bool run = true;
@@ -73,18 +74,18 @@ int main(int argc, char* args[])
 
 	vector<Vector2f> points1 =
 	{
-		Vector2f(0,0),
-		Vector2f(0,450),
-		Vector2f(600,450),
-		Vector2f(600,0),
-		Vector2f(300, 300)
+		Vector2f(0.0f,0.0f),
+		Vector2f(0.0f,450.0f),
+		Vector2f(600.0f,450.0f),
+		Vector2f(600.0f,0.0f),
+		Vector2f(300.0f, 300.0f)
 	};
 
 	Polygon poly(points1);
 
 	ArtGallery gallery(poly);
 
-	Vector2f guardpos = Vector2f(501, 121);
+	Vector2f guardpos = Vector2f(100.0f, 300.0f);
 	Polygon visible = gallery.generateVisible(guardpos);
 
 	Trace tr(Vector2f(300.0f, 0.0f), Vector2f(300.0f, 1000.0f), poly);
