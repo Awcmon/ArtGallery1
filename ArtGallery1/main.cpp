@@ -87,7 +87,7 @@ int main(int argc, char* args[])
 	Vector2f guardpos = Vector2f(500, 121);
 	Polygon visible = gallery.generateVisible(guardpos);
 
-	Trace tr(Vector2f(300.0f, 0.0f), Vector2f(800.0f, 1000.0f), poly);
+	Trace tr(Vector2f(300.0f, 0.0f), Vector2f(300.0f, 1000.0f), poly);
 	printVec(tr.hits, " ");
 
 	while (run)

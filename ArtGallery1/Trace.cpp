@@ -33,6 +33,7 @@ Trace::Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, Polygon poly)
 		{
 			std::cout << "parallel and non-intersecting\n";
 		}
+		else if (cross2D(r, s) != 0.0f && (t > 0.0f && t <= 1.0f) && (u > 0.0f && u <= 1.0f))
 		{
 			hits.push_back(p+r*t);
 		}
