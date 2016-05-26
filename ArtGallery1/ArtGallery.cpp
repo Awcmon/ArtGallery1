@@ -118,11 +118,10 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 			float ang = dir.angle();
 			float angp = angr_normalize(ang-0.01);
 			float angn = angr_normalize(ang+0.01);
-			LineSegment lsp(enclosing.vertices[(index - 1 + enclosing.vertices.size()) % enclosing.vertices.size()], enclosing.vertices[index]);
-			LineSegment lsn(enclosing.vertices[(index + 1) % enclosing.vertices.size()], enclosing.vertices[index]);
+			LineSegment ls(enclosing.vertices[(index - 1 + enclosing.vertices.size()) % enclosing.vertices.size()], enclosing.vertices[(index + 1) % enclosing.vertices.size()]);
 			Vector2f dirp = awcutil::angr_forward(angp);
 			Vector2f dirn = awcutil::angr_forward(angn);
-			if( (Trace(guard, dirp*100.0f, lsp).hits.size() > 0 && Trace(guard, dirn*100.0f, lsn).hits.size() > 0) || (Trace(guard, dirn*1000.0f, lsp).hits.size() > 0 && Trace(guard, dirp*1000.0f, lsn).hits.size() > 0) )
+			if(Trace(guard, dir*100.0f, ls).hits.size() > 0 || Trace(guard, dir*-100.0f, ls).hits.size() > 0)
 			{
 				verts.push_back(sorted[i]);
 				std::cout << "wall\n\n";
