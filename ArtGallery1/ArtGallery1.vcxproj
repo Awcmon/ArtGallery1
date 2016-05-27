@@ -149,6 +149,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AInputEvent.cpp" />
+    <ClCompile Include="AKeyboard.cpp" />
+    <ClCompile Include="AMouse.cpp" />
     <ClCompile Include="ArtGallery.cpp" />
     <ClCompile Include="LineSegment.cpp" />
     <ClCompile Include="main.cpp" />
@@ -156,6 +159,9 @@
     <ClCompile Include="Trace.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AInputEvent.h" />
+    <ClInclude Include="AKeyboard.h" />
+    <ClInclude Include="AMouse.h" />
     <ClInclude Include="ArtGallery.h" />
     <ClInclude Include="LineSegment.h" />
     <ClInclude Include="Polygon.h" />

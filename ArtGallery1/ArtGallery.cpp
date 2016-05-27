@@ -109,7 +109,7 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 			{
 				if (enclosing.vertices[k] == sorted[i])
 				{
-					std::cout << "index: " << k << "\n";
+					//std::cout << "index: " << k << "\n";
 					index = k;
 					break;
 				}
@@ -119,12 +119,12 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 			if(Trace(guard, guard + dir*10.0f, ls).hits.size() > 0 || Trace(guard, guard + dir*-10.0f, ls).hits.size() > 0)
 			{
 				verts.push_back(sorted[i]);
-				std::cout << "wall\n\n";
+				//std::cout << "wall\n\n";
 			}
 			else
 			{
-				std::cout << "DIR: " << dir;
-				std::cout << "Hitpos: " << Trace(guard, guard + dir*10.0f, enclosing).hits[1] << "\n";
+				//std::cout << "DIR: " << dir;
+				//std::cout << "Hitpos: " << Trace(guard, guard + dir*10.0f, enclosing).hits[1] << "\n";
 
 				bool connected = false;
 				for (int j = 0; j < (int)enclosing.segments.size(); j++)
@@ -155,7 +155,7 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 					verts.push_back(Trace(guard, guard + dir*10.0f, enclosing).hits[1]);
 					verts.push_back(sorted[i]);
 				}
-				std::cout << "edge\n\n";
+				//std::cout << "edge\n\n";
 			}
 			/*
 			std::sort(verts.begin(), verts.end(),

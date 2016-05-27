@@ -14,6 +14,8 @@
 #include "Polygon.h"
 #include "ArtGallery.h"
 #include "Trace.h"
+#include "AMouse.h"
+#include "AKeyboard.h"
 
 using std::cout;
 
@@ -77,11 +79,17 @@ void printVec(std::vector<T, A> const& vec, string delim)
 
 int main(int argc, char* args[])
 {
-
-	//cout << angr_normalize((float)M_PI);
 	Window window("Hi", 800, 600, SDL_WINDOW_SHOWN);
 	bool run = true;
-	EventContainer events;
+
+	AMouse mouse;
+	AKeyboard keyboard;
+
+	AInputEvent input;
+	mouse.setInputEvent(&input);
+	keyboard.setInputEvent(&input);
+
+	//EventContainer events;
 	/*
 	vector<Vector2f> points1 =
 	{
@@ -92,7 +100,7 @@ int main(int argc, char* args[])
 		Vector2f(300, 300)
 	};
 	*/
-
+	/*
 	vector<Vector2f> points1 =
 	{
 		Vector2f(0.0f,0.0f),
@@ -101,7 +109,9 @@ int main(int argc, char* args[])
 		Vector2f(600.0f,0.0f),
 		Vector2f(300.0f, 300.0f)
 	};
+	*/
 
+	/*
 	Polygon poly(points1);
 
 	ArtGallery gallery(poly);
@@ -111,14 +121,64 @@ int main(int argc, char* args[])
 
 	Trace tr(Vector2f(300.0f, 0.0f), Vector2f(300.0f, 1000.0f), poly);
 	printVec(tr.hits, " ");
+	*/
+
+	vector<Vector2f> points;
+	vector<Vector2f> guards;
+	ArtGallery gallery;
+	bool fill = false;
 
 	while (run)
 	{
+		input.think();
+		mouse.think();
+		keyboard.think();
+		/*
 		events.think();
 		if (events.has_event_type(SDL_QUIT))
 		{
 			run = false;
 		}
+		*/
+
+		Vector2f mpos(mouse.pos.x, mouse.pos.y);
+
+		if (input.isEvent(SDL_QUIT))
+		{
+			run = false;
+		}
+
+		if (keyboard.keyPressed(SDL_SCANCODE_R))
+		{
+			guards.clear();
+		}
+
+		if (keyboard.keyPressed(SDL_SCANCODE_T))
+		{
+			points.clear();
+			guards.clear();
+			gallery.enclosing.vertices.clear();
+		}
+
+		if (keyboard.keyPressed(SDL_SCANCODE_F))
+		{
+			fill = !fill;
+		}
+
+		if (keyboard.keyPressed(SDL_SCANCODE_Q))
+		{
+			points.push_back(mpos);
+			if (points.size() >= 3)
+			{
+				gallery.enclosing = Polygon(points);
+			}
+		}
+
+		if (keyboard.keyPressed(SDL_SCANCODE_E))
+		{
+			guards.push_back(mpos);
+		}
+
 
 		SDL_SetRenderDrawColor(window.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(window.renderer);
@@ -128,15 +188,43 @@ int main(int argc, char* args[])
 		SDL_SetRenderDrawColor(window.renderer, 0x00, 0x00, 0x00, 0xFF);
 		SDL_RenderFillRect(window.renderer, &fillRect);
 
-		//draw visible
-		SDL_SetRenderDrawColor(window.renderer, 0, 0, 0xFF, 0xFF);
-		fillPolygon(window.renderer, visible);
 
-		//Draw test poly
+		//Draw poly
 		SDL_SetRenderDrawColor(window.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		drawPolygon(window.renderer, poly);
+		if (gallery.enclosing.vertices.size() >= 3)
+		{
+			drawPolygon(window.renderer, gallery.enclosing);
+		}
 
-		SDL_RenderDrawPoint(window.renderer, (int)guardpos.x, (int)guardpos.y);
+		SDL_SetRenderDrawColor(window.renderer, 0, 0, 0xFF, 0xFF);
+		for (int i = 0; i < (int)guards.size(); i++)
+		{
+			if (fill)
+			{
+				fillPolygon(window.renderer, gallery.generateVisible(guards[i]));
+			}
+			else
+			{
+				drawPolygon(window.renderer, gallery.generateVisible(guards[i]));
+			}
+		}
+
+		SDL_SetRenderDrawColor(window.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		if (fill)
+		{
+			if (gallery.enclosing.vertices.size() >= 3)
+			{
+				drawPolygon(window.renderer, gallery.enclosing);
+			}
+		}
+
+		//fillPolygon(window.renderer, visible);
+
+		for (int i = 0; i < (int)guards.size(); i++)
+		{
+			SDL_RenderDrawPoint(window.renderer, (int)guards[i].x, (int)guards[i].y);
+		}
+
 
 		SDL_RenderPresent(window.renderer);
 	}
