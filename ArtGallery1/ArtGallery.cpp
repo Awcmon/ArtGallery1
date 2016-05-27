@@ -125,8 +125,36 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 			{
 				std::cout << "DIR: " << dir;
 				std::cout << "Hitpos: " << Trace(guard, guard + dir*10.0f, enclosing).hits[1] << "\n";
-				verts.push_back(Trace(guard, guard + dir*10.0f, enclosing).hits[1]);
-				verts.push_back(sorted[i]);
+
+				bool connected = false;
+				for (int j = 0; j < (int)enclosing.segments.size(); j++)
+				{
+					if (verts.size() > 0)
+					{
+						if ((enclosing.segments[j].p1 == verts[verts.size()-1] && enclosing.segments[j].p2 == sorted[i]) || (enclosing.segments[j].p2 == verts[verts.size() - 1] && enclosing.segments[j].p1 == sorted[i]))
+						{
+							connected = true;
+							break;
+						}
+					}
+					else
+					{
+						connected = true;
+						break;
+					}
+				}
+				if (connected)
+				{
+					//std::cout << verts[verts.size() - 1] << " and " << sorted[i] << " are connected.";
+					verts.push_back(sorted[i]);
+					verts.push_back(Trace(guard, guard + dir*10.0f, enclosing).hits[1]);
+				}
+				else
+				{
+					//std::cout << verts[verts.size() - 1] << " and " << sorted[i] << " are not connected.";
+					verts.push_back(Trace(guard, guard + dir*10.0f, enclosing).hits[1]);
+					verts.push_back(sorted[i]);
+				}
 				std::cout << "edge\n\n";
 			}
 			/*
@@ -134,14 +162,15 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 				[guard](Vector2f & a, Vector2f & b) -> bool
 				{
 					std::cout << a << " " << b << ": " << (a - guard).normalized().angle() << " " << (b - guard).normalized().angle() << "\n";
-					if (angr_normalize((a - guard).normalized().angle()) != angr_normalize((b - guard).normalized().angle()))
+					//if (angr_normalize((a - guard).normalized().angle()) != angr_normalize((b - guard).normalized().angle()))
+					if ((a - guard).angle() != (b - guard).angle())
 					{
 						return (a - guard).angle() < (b - guard).angle();
 					}
 					else
 					{
 						std::cout << "LENGTH CHECK\n";
-						return (a - guard).length_sqr() > (b - guard).length_sqr();
+						return (a - guard).length_sqr() < (b - guard).length_sqr();
 					}
 				}
 			);
