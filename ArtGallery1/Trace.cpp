@@ -27,11 +27,11 @@ Trace::Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, Polygon poly)
 		float u = cross2D((q - p), r) / cross2D(r, s);
 		if (cross2D(r, s) == 0.0f && cross2D((q - p), r) == 0.0f)
 		{
-			std::cout << "Collinear\n";
+			//std::cout << "Collinear\n";
 		}
 		else if (cross2D(r, s) == 0.0f && cross2D((q - p), r) != 0.0f)
 		{
-			std::cout << "parallel and non-intersecting\n";
+			//std::cout << "parallel and non-intersecting\n";
 		}
 		else if (cross2D(r, s) != 0.0f && (t > 0.0f && t <= 1.0f) && (u > 0.0f && u <= 1.0f))
 		{
@@ -39,7 +39,7 @@ Trace::Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, Polygon poly)
 		}
 		else
 		{
-			std::cout << "not parallel and non-intersecting\n";
+			//std::cout << "not parallel and non-intersecting\n";
 		}
 	}
 	std::sort(hits.begin(), hits.end(),
@@ -64,11 +64,11 @@ Trace::Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, LineSegment se
 	float u = cross2D((q - p), r) / cross2D(r, s);
 	if (cross2D(r, s) == 0.0f && cross2D((q - p), r) == 0.0f)
 	{
-		std::cout << "Collinear\n";
+		//std::cout << "Collinear\n";
 	}
 	else if (cross2D(r, s) == 0.0f && cross2D((q - p), r) != 0.0f)
 	{
-		std::cout << "parallel and non-intersecting\n";
+		//std::cout << "parallel and non-intersecting\n";
 	}
 	else if (cross2D(r, s) != 0.0f && (t >= 0.0f && t <= 1.0f) && (u >= 0.0f && u <= 1.0f))
 	{
@@ -76,7 +76,7 @@ Trace::Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, LineSegment se
 	}
 	else
 	{
-		std::cout << "not parallel and non-intersecting\n";
+		//std::cout << "not parallel and non-intersecting\n";
 	}
 
 	std::sort(hits.begin(), hits.end(),
@@ -88,7 +88,7 @@ Trace::Trace(awcutil::Vector2f _start, awcutil::Vector2f _endpos, LineSegment se
 
 	for (int i = 0; i < (int)hits.size(); i++)
 	{
-		std::cout << hits[i] << " ";
+		//std::cout << hits[i] << " ";
 	}
 	//std::cout << "\n";
 }

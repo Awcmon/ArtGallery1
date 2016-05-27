@@ -83,26 +83,26 @@ Polygon ArtGallery::generateVisible(awcutil::Vector2f guard)
 			float u = cross2D((q - p), r) / cross2D(r, s);
 			if (cross2D(r, s) == 0.0f && cross2D((q - p), r) == 0.0f)
 			{
-				std::cout << "Collinear\n";
+				//std::cout << "Collinear\n";
 			}
 			else if (cross2D(r, s) == 0.0f && cross2D((q - p), r) != 0.0f)
 			{
-				std::cout << "parallel and non-intersecting\n";
+				//std::cout << "parallel and non-intersecting\n";
 			}
 			else if (cross2D(r, s) != 0.0f && (t > 0.0f && t < 1.0f) && (u > 0.0f && u < 1.0f))
 			{
-				std::cout << "Path to " << sorted[i] << " blocked by line segment " << enclosing.segments[j].p1 << " to " << enclosing.segments[j].p2 << "\n";
+				//std::cout << "Path to " << sorted[i] << " blocked by line segment " << enclosing.segments[j].p1 << " to " << enclosing.segments[j].p2 << "\n";
 				blocked = true;
 				break;
 			}
 			else
 			{
-				std::cout << "not parallel and non-intersecting\n";
+				//std::cout << "not parallel and non-intersecting\n";
 			}
 		}
 		if (!blocked)
 		{
-			std::cout << "\n" << sorted[i] << "\n";
+			//std::cout << "\n" << sorted[i] << "\n";
 			//Find if it is just an edge, or if it's a dead end.
 			int index = 0;
 			for (int k = 0; k < (int)enclosing.vertices.size(); k++)
